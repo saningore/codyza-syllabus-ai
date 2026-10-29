@@ -8,3 +8,6 @@ export const extractedDeadlineSchema = z.object({
   issue: z.string().nullable(),
 });
 export const extractionSchema = z.object({ deadlines: z.array(extractedDeadlineSchema) });
+
+export type ExtractedDeadline = z.infer<typeof extractedDeadlineSchema>;
+export type Extraction = z.infer<typeof extractionSchema>;

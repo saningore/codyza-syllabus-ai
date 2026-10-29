@@ -1,4 +1,4 @@
-> **JavaScript edition:** This repository uses `.js` and `.jsx` (no TypeScript). Runtime AI data is validated with Zod. See `jsconfig.json` for import aliases.
+> **TypeScript edition:** Application code uses `.ts` and `.tsx`, with strict TypeScript checking and Zod runtime validation. See `tsconfig.json` for compiler settings and import aliases.
 
 # SyllabusAI — Powered by Codyza
 
@@ -13,7 +13,7 @@ SyllabusAI is a full-stack student productivity application. Students upload cou
 
 **Non-negotiable:** Never invent a professor's deadline, grading policy, or exam date. Unknown and conflicting facts go into a review queue. Suggested study milestones must be visibly labeled as suggestions rather than instructor requirements.
 
-**What exists in this starter:** Next.js App Router skeleton, Tailwind styles, health route, intentionally unimplemented extraction route, JavaScript/Zod schema, Supabase client helpers, draft SQL tables/RLS, one sample test, GitHub CI, and this planning handbook. **What does not exist:** working auth, upload pipeline, parsing, AI extraction, reminders, real dashboard, calendar, study plans, production security, or production deployment. Do not submit this scaffold as the final product.
+**What exists in this starter:** Next.js App Router skeleton, Tailwind styles, health route, intentionally unimplemented extraction route, TypeScript/Zod schema, Supabase client helpers, draft SQL tables/RLS, one sample test, GitHub CI, and this planning handbook. **What does not exist:** working auth, upload pipeline, parsing, AI extraction, reminders, real dashboard, calendar, study plans, production security, or production deployment. Do not submit this scaffold as the final product.
 
 ## 1. Quick start
 
@@ -22,7 +22,7 @@ Prerequisites: Node.js 22 LTS, npm, Git, a Supabase project, a Gemini developer 
 ```bash
 git clone <OFFICIAL_CODYZA_REPO_URL>
 cd <YOUR_REPO>
-npm install
+npm ci
 cp .env.example .env.local
 # Edit .env.local with your own development credentials
 npm run dev
@@ -40,17 +40,17 @@ Before database features work, create a Supabase project, set `NEXT_PUBLIC_SUPAB
 | `npm run build` | Check production compilation |
 | `npm run start` | Serve compiled build |
 | `npm run lint` | ESLint |
-| `npm run lint` | ESLint checks |
+| `npm run typecheck` | TypeScript validation |
 | `npm test` | Run Vitest tests |
 | `npm run test:watch` | Watch tests |
 
-**Dependency management:** The package manifest provides starter version ranges, **not a tested lockfile**. Run `npm install`, fix any version/API incompatibilities, and commit the generated `package-lock.json`. After that use `npm ci` in CI for reproducible builds. CI in this scaffold uses `npm install` only until a lockfile exists. Check package advisories and update versions before release.
+**Dependency management:** `package-lock.json` is committed; use `npm ci` for reproducible installs. Check package advisories and update versions before release.
 
 ## 2. Recommended technology and why
 
 | Layer | Starter choice | Reason / caveat |
 |---|---|---|
-| UI | Next.js App Router + React + JavaScript (JSX) | Shared full-stack JavaScript with JSX components |
+| UI | Next.js App Router + React + TypeScript (TSX) | Shared full-stack JavaScript with statically checked UI components |
 | Styles | Tailwind CSS 4 | Consistent responsive UI |
 | API | Next.js route handlers | Server-side access and model calls |
 | Database | Supabase PostgreSQL | Persistent relational records and RLS |
@@ -309,7 +309,7 @@ Create synthetic syllabus fixtures without real student private data. Add unit t
 
 - [ ] Confirm team roles and revised deadline in Slack.
 - [ ] Get access to the official Codyza repository.
-- [ ] Commit scaffold and generate/commit a tested `package-lock.json`.
+- [ ] Validate the committed lockfile and confirm CI installs reproducibly with `npm ci`.
 - [ ] Run `npm run typecheck`, `npm run lint`, `npm test`, and `npm run build` locally.
 - [ ] Create Supabase dev project and private storage policies.
 - [ ] Review database ownership/RLS gaps and write security tests.

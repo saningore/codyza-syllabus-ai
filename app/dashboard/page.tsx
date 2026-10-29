@@ -1,0 +1,10 @@
+export default function Dashboard() {
+  return (
+    <main className="mx-auto max-w-5xl px-6 py-16">
+      <h1 className="text-3xl font-bold">Semester dashboard</h1>
+      <p className="mt-4 text-slate-600">
+        Placeholder only. Do not expose student data here until authentication and authorization are implemented.
+      </p>
+    </main>
+  );
+}
