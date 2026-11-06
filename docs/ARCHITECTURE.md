@@ -1,9 +1,52 @@
-# Architecture decision record (initial proposal)
+# Architecture — modular monolith
 
-Browser → Next.js UI → authenticated Next.js route handlers → Supabase Postgres / private Storage.
+**Decision:** Modular monolith (single Next.js deployable + Supabase). Not microservices. Not an unstructured classic monolith.
 
-Upload → validate MIME, signature and size → private object → queue/processing status → parse PDF/DOCX/image → page-indexed source chunks → Gemini (server only) → Zod validation → uncertainty/duplicate detection → unreviewed records → human confirmation → confirmed deadlines → dashboard, reminders, calendar export and grounded Q&A.
+## Why
 
-Do not put model keys in client code. Do not assume that model confidence is calibrated. Never convert a guessed date into a confirmed deadline. Use server-side authorization and private storage policies. For long-running jobs, evaluate a worker/queue; serverless request timeouts may prevent processing large files.
+- 4-person team, free-tier Vercel + Supabase, learning deadline
+- Domains are tightly coupled via change-impact (deadline → reminders → calendar → plans)
+- Shared Postgres + RLS is the security model
+- Optional `jobs/` worker later if serverless timeouts block OCR/Gemini — same repo, not a service fleet
 
-**Status:** Proposed architecture, not a deployed or verified implementation.
+## Runtime shape
+
+```text
+Student browser (Next.js UI)
+  ├── Supabase Auth session
+  └── authenticated Next.js API / server actions
+       ├── PostgreSQL (RLS + ownership checks)
+       ├── Private Storage (syllabus files)
+       ├── modules/documents (PDF / DOCX / OCR → source chunks)
+       ├── modules/extraction (Gemini server-side + Zod)
+       ├── modules/review (human confirm/edit/reject)
+       └── confirmed deadlines → reminders / calendar / assistant / planner
+```
+
+## Module map
+
+| Module | Responsibility |
+|---|---|
+| `identity` | Profiles, prefs, account deletion |
+| `academic` | Semesters, courses, timezone |
+| `documents` | Upload, validation, parse/OCR, chunks, status machine |
+| `extraction` | Gemini, Zod schemas, conflicts, policies/weights |
+| `review` | Human gate before trusted data |
+| `deadlines` | Confirmed academic items |
+| `reminders` | Offsets and delivery status |
+| `calendar` | ICS / Google export records |
+| `assistant` | Grounded Q&A + NL search |
+| `planner` | Workload, weekly plans, exam prep, suggestions |
+
+Import other modules only through each module’s `index.ts`.
+
+## Non-negotiable product rules
+
+- Never invent a professor deadline, grading policy, or exam date
+- Confidence is a model signal, not proof — human review wins
+- Suggestions must be labeled as suggestions, not instructor requirements
+- Treat syllabus text as untrusted (prompt-injection defense)
+
+## Status
+
+Scaffolded modular layout with stub APIs and pages. Not a finished product.

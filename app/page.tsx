@@ -9,11 +9,23 @@ export default function Home() {
         Turn course syllabuses into verified academic deadlines and organized study plans.
       </p>
       <p className="mt-5 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm">
-        Development scaffold only. Authentication, uploads, AI extraction, and calendar features are not implemented yet.
+        Development scaffold only. Authentication, uploads, AI extraction, and calendar features are
+        not implemented yet. Architecture: modular monolith.
       </p>
-      <Link className="mt-8 inline-block rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white" href="/dashboard">
-        View dashboard placeholder
-      </Link>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Link
+          className="inline-block rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white"
+          href="/dashboard"
+        >
+          View dashboard placeholder
+        </Link>
+        <Link
+          className="inline-block rounded-lg border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-800"
+          href="/auth/sign-in"
+        >
+          Sign in (stub)
+        </Link>
+      </div>
     </main>
   );
 }

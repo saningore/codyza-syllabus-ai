@@ -9,6 +9,8 @@
 
 ## 0. Start here — what is this repository?
 
+**Architecture:** modular monolith — domain logic in `modules/`, thin Next.js `app/` routes/pages, shared helpers in `shared/`, optional long-running work in `jobs/`. See `docs/ARCHITECTURE.md` and `docs/MODULES.md`.
+
 SyllabusAI is a full-stack student productivity application. Students upload course syllabuses (PDF, DOCX, PNG, JPG/JPEG), the backend parses and analyzes them, and students **review and confirm** extracted academic deadlines before they become trusted records. Confirmed items appear in the semester dashboard, calendar, reminder system, study planner, and syllabus-grounded assistant.
 
 **Non-negotiable:** Never invent a professor's deadline, grading policy, or exam date. Unknown and conflicting facts go into a review queue. Suggested study milestones must be visibly labeled as suggestions rather than instructor requirements.
