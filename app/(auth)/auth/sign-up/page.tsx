@@ -1,15 +1,28 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { SignUpForm } from "@/components/auth/sign-up-form";
+import { textLinkClass } from "@/components/auth/styles";
+import { getOptionalUser } from "@/shared/auth/require-user";
 
-export default function SignUpPage() {
+export const dynamic = "force-dynamic";
+
+export default async function SignUpPage() {
+  const user = await getOptionalUser();
+  if (user) redirect("/dashboard");
+
   return (
-    <main className="mx-auto max-w-md px-6 py-24">
+    <main className="mx-auto max-w-md px-6 py-16">
       <h1 className="text-3xl font-bold">Sign up</h1>
       <p className="mt-4 text-slate-600">
-        Registration is not wired yet. Use Supabase Auth with server-side session checks.
+        Create an account with your email. You will confirm it before the dashboard opens.
       </p>
-      <Link className="mt-8 inline-block text-sm font-semibold text-blue-700 underline" href="/">
-        Back home
-      </Link>
+      <SignUpForm />
+      <p className="mt-6 text-sm text-slate-600">
+        Already registered?{" "}
+        <Link className={textLinkClass} href="/auth/sign-in">
+          Sign in
+        </Link>
+      </p>
     </main>
   );
 }

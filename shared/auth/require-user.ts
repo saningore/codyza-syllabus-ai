@@ -1,5 +1,6 @@
-import { AppError } from "@/shared/errors";
+import { getPublicSupabaseEnv } from "@/lib/supabase/env";
 import { getServerSupabase } from "@/lib/supabase/server";
+import { AppError } from "@/shared/errors";
 
 export type AuthUser = {
   id: string;
@@ -7,8 +8,8 @@ export type AuthUser = {
 };
 
 /**
- * Server-side session gate for route handlers and server actions.
- * Auth is not wired yet — this helper throws until Supabase Auth is configured.
+ * Server-side session gate for route handlers, layouts, and server actions.
+ * Validates the user with Supabase Auth (`getUser`), then returns the account id.
  */
 export async function requireUser(): Promise<AuthUser> {
   const supabase = await getServerSupabase();
@@ -19,4 +20,15 @@ export async function requireUser(): Promise<AuthUser> {
   }
 
   return { id: data.user.id, email: data.user.email };
+}
+
+/** Reads the current session when auth is configured. Missing config or session yields null. */
+export async function getOptionalUser(): Promise<AuthUser | null> {
+  if (!getPublicSupabaseEnv()) return null;
+  try {
+    return await requireUser();
+  } catch (error) {
+    if (error instanceof AppError && error.status === 401) return null;
+    return null;
+  }
 }

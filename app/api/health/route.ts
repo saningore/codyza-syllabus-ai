@@ -5,6 +5,6 @@ export async function GET() {
     status: "ok",
     service: "syllabusai",
     architecture: "modular-monolith",
-    implemented: ["health"],
+    implemented: ["health", "auth"],
   });
 }

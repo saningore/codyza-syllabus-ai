@@ -1,0 +1,11 @@
+export type PublicSupabaseEnv = {
+  url: string;
+  key: string;
+};
+
+export function getPublicSupabaseEnv(): PublicSupabaseEnv | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return { url, key };
+}
