@@ -1,10 +1,11 @@
 import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getPublicSupabaseEnv } from "./env";
 
 export async function getServerSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Error("Missing public Supabase environment variables");
+  const env = getPublicSupabaseEnv();
+  if (!env) throw new Error("Missing public Supabase environment variables");
+  const { url, key } = env;
 
   const cookieStore = await cookies();
   const setAll: SetAllCookies = (items) => {

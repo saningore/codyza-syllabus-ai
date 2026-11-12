@@ -18,7 +18,7 @@ export function PlaceholderPage({
       <h1 className="text-3xl font-bold">{title}</h1>
       <p className="mt-4 max-w-2xl text-slate-600">{description}</p>
       <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
-        Scaffold placeholder — wire real auth, data, and actions before treating this as production UI.
+        Scaffold placeholder — data and actions for this page are not connected yet.
       </p>
       <Link className="mt-8 inline-block text-sm font-semibold text-blue-700 underline" href={backHref}>
         {backLabel}
